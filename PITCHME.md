@@ -6,6 +6,7 @@
 
 ### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
+
 Will touch on:
 - History and baggage of Task |
 - Async state machine |
@@ -15,9 +16,11 @@ Will touch on:
 +++
 
 ### A brief history of space and Task
-- Task Parallel Library (TPL) (.NET >= 4.0)
+- Task Parallel Library (TPL)
+	.NET >= 4.0
 	- Task
-- Task-based Asynchronous Programming (TAP) (.NET >= 4.5)
+- Task-based Asynchronous Programming (TAP)
+	.NET >= 4.5
 	- Task.Factory.StartNew
 	- Task.Run
 	- async and await (C# 5)
