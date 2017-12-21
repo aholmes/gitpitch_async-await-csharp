@@ -71,7 +71,7 @@ Instead use <span style="font-size:20px;">Task.Run(A);</span>
 # Task.Run
 
 Task.Run is parallel, but not necessarily asynchronous
-Context-specific definitions:
+<div style="width:100%;text-align: left;">Context-specific definitions:</div>
 - Parallel: executing concurrently via threads |
 - Asynchronous: executing on hardware after releasing thread |
 	- Releasing thread: sending the thread back to the management threadpool
