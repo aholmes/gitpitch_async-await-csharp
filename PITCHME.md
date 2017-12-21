@@ -44,9 +44,11 @@ Task-based Asynchronous Programming (TAP)
 <li class="fragment">
 Equivalent to
 	
-```csharp
+<p>
+```
 Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
 ```
+</p>
 </li>
 <li class="fragment">
 Who wants to remember this?
