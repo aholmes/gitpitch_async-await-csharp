@@ -6,11 +6,13 @@
 
 ### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
-- Will touch on:
+Will touch on:
 - History and baggage of Task |
 - Async state machine |
 - Thread management |
 - Asynchronous vs Parallel |
+
++++
 
 ### A brief history of space and Task
 - Task Parallel Library (TPL) (.NET >= 4.0)
@@ -22,9 +24,10 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-### TPL
-Provides high-level methods to simplify using threads for parallel processing and  concurrency. |
-Stuck using threads. |
+### Task Parallel Library (TPL)
+- Provides high-level methods to simplify using threads for parallel processing and  concurrency |
+- Stuck using (and blocking) threads |
+	- Wastes CPU cycles waiting for IO
 
 +++
 		- .NET 4.5 added Task.Run to make life easier (defaults for Task.Factory.StartNew, and safer)
