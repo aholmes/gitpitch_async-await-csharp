@@ -38,15 +38,16 @@ Understand what happens with asynchronous programming in .NET
 
 Task-based Asynchronous Programming (TAP)
 <ul>
-<li>
+<li class="fragment">
 .NET 4.5 added Task.Run to make life easier
-
+</li>
+<li class="fragment">
 	Equivalent to `Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);`
 </li>
-<li>
-Who wants to remember this? |
+<li class="fragment">
+Who wants to remember this?
 
-- Instead use Task.Run(A); |
+Instead use Task.Run(A);
 </li>
 </ul>
 
