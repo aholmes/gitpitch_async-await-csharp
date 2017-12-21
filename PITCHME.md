@@ -10,7 +10,7 @@ Understand what happens with asynchronous programming in .NET
 - TAP |
 - Task.Factory.StartNew |
 - Task.Run |
-- `async` and `await` |
+- async and await |
 +++
 ### A brief history of space and Task
 
