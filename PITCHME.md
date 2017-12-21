@@ -1,9 +1,19 @@
 # Async in C#
-##### How to win at life
+##### How to succeed with asynchronous programming in .NET
+###### (and other fun facts)
+
 +++
-- Common issues and why they happen
-	- need to understand what happens with asynchronous programming
+
+### Common issues and why they happen
+Understand what happens with asynchronous programming in .NET
+- TPL
+- TAP |
+- Task.Factory.StartNew |
+- Task.Run |
+- async and await |
 +++
+### A brief history of space and Task
+
 		- TPL, TAP, & Task.Factory.StartNew
 			- task parallel library
 			- define TAP Task Based Asynchronous Programming
