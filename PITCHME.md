@@ -1,4 +1,4 @@
-# Async in C\# 
+# Async in C&#35; 
 ##### How to succeed with asynchronous programming in .NET
 ###### (and other fun facts)
 
