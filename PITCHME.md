@@ -35,14 +35,20 @@ Understand what happens with asynchronous programming in .NET
 	- Wastes CPU cycles waiting for IO
 
 +++
-Task-based Asynchronous Programming (TAP)
-- .NET 4.5 added Task.Run to make life easier |
-	- Equivalent to ```csharp
-	Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);```
 
+Task-based Asynchronous Programming (TAP)
+<ul>
+<li>
+.NET 4.5 added Task.Run to make life easier
+
+	Equivalent to `Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);`
+</li>
+<li>
 Who wants to remember this? |
 
 - Instead use Task.Run(A); |
+</li>
+</ul>
 
 +++
 			- C# 5 added async/await keywords
