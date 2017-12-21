@@ -4,6 +4,12 @@
 
 +++
 
+GitPitch slideshow: https://gitpitch.com/aholmes/gitpitch_async-await-csharp
+
+GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
+
++++
+
 # Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
 
@@ -74,7 +80,7 @@ Task.Run is parallel, but not necessarily asynchronous
 <div style="width:100%;text-align: left;">Context-specific definitions:</div>
 - Parallel: executing concurrently via threads |
 - Asynchronous: executing on hardware after releasing thread |
-	- Releasing thread: sending the thread back to the managemed threadpool
+	- Releasing thread: sending the thread back to the managed threadpool
 
 +++
 
@@ -90,64 +96,123 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 					- Device driver &lt;-- thread released |
 
 +++
-	- deadlocks
-		- .Result, .Wait(), .GetAwaiter().GetResult, any other sort of thread blocking
-			- define thread blocking
-			- safe at top level (like Main in console app)
+
+# Common problems
+###### Deadlocks
+
+- Caused by blocking a thread while another thread attempts to continue
+- Culprits: .Result, .Wait(), .GetAwaiter().GetResult(), any other sort of thread blocking
+	- TARE: Thread-Abuse Resistence Education. Just say no!
+
 +++
-		- in ASP.NET
-			- define sync context
-			- synchronization context & flow diagram
+# Common problems
+###### Deadlocks in ASP.NET
+
+- Caused by SynchronizationContext when blocking threads
+	- One executing thread per request (SyncContext gating)
+	- Continuation tries to execute two threads
+
 +++
-		- configureawait false
-			- why not to rely on this
+# Common problems
+###### Relying on ConfigureAwait(false)
+
+> Using ConfigureAwait(false) to avoid deadlocks is a dangerous practice. You would have to use ConfigureAwait(false) for every await in the transitive closure of all methods called by the blocking code, including all third- and second-party code. Using ConfigureAwait(false) to avoid deadlock is at best just a hack).
+
+https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
+
 +++
-- succeeding
-	- concepts needed to use async/await successfully
+
+# Succeeding with Async
+###### Concepts needed to use async/await successfully
+
 +++
-		- async and await keywords
-			- state machine
+# Succeeding with Async
+
+- One big state machine
+	- MSBuild generates IL |
+	- State machine contains continuations |
+	- Manages async Task object |
+
 +++
-		- WhenAny/WhenAll
+# Understanding async/await
+
+Never block!
+
+Instead, use:
+		- await |
+			- Unwraps Tasks and returns internal result
+		- WhenAny |
+			- Returns when any task in an IEnumerable<Task> completes
+			- Returns immediately when any Task fails
+		- WhenAll |
+			- Returns when all tasks in an IEnumerable<Task> complete
+			- Failures do not cause an early return
 +++
-		- continuewith
+
+# Understanding async/await
+ContinueWith()
+
+- Set up your own continuations |
+- Easy way to handle a result immediately after a Task finishes |
+	- One place .Result is safe
+	- ContinueWith(t => t.Result);
+
 +++
-		- cancellationtokens
+# Understanding async/await
+Cancellation Tokens
+
+- Stop in-progress work |
+- Respond in Tasks when something happens |
+
 +++
-		- Task<T> extends Task
+# Understanding async/await
+
+Task<T> extends Task
+
 +++
-		- AggregateException
+# Understanding async/await
+AggregateException
 			- Catching and handling this and other exceptions
 				- (use `when()` - it's awesome)
 +++
-	- what to do in the monolith
-		- async is possible in most areas
+# Understanding async/await
+What to do in the monolith
+	- async is possible in most areas
+		- if not, "why aaron keeps saying use Task.Run(Action).Result"
 +++
-			- if not, "why aaron keeps saying use Task.Run(Action).Result"
-+++
-	- use async everywhere, but be smart about it
-+++
+# Understanding async/await
+use async everywhere, but be smart about it
+
 		- try to avoid async/await when using TPL or "threaded tasks"
 +++
-		- achieve parallelization when possible, use responsibly
-			- don't exhaust resources like network ports or disk io with too many parallel operations
+# Understanding async/await
+ achieve parallelization when possible, use responsibly
+	- don't exhaust resources like network ports or disk io with too many parallel operations
 +++
+# Understanding async/await
 		- always configureawait false in your library code
 			- don't rely on context capturing in you need it (e.g. global HttpContext)
 +++
+# Understanding async/await
 		- consider adopting an "always use cancellation tokens" policy
 +++
+# Understanding async/await
 	- permutations on the use of Task/Task<T> and async/await
 +++
+# Understanding async/await
 		- Task pass-through
 			- exceptions again
 +++
+# Understanding async/await
 		- Task[] and different Task<T> types
 +++
+# Understanding async/await
 		- using .Result after task completion (dangerous!)
 			- exceptions again again
 		- using await after task completes
 +++
+# Understanding async/await
 		- Unwrapping Task<Task> and Task<Task<T>>
 +++
+# Understanding async/await
 		- async in xUnit - do it! use supporting asserts
