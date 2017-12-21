@@ -7,7 +7,7 @@
 ### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
 
-Will touch on:
+<span style="text-align: left;">Will touch on:</span>
 - History and baggage of Task |
 - Async state machine |
 - Thread management |
