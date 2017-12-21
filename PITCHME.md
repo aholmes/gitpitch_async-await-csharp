@@ -37,7 +37,8 @@ Understand what happens with asynchronous programming in .NET
 +++
 Task-based Asynchronous Programming (TAP)
 - .NET 4.5 added Task.Run to make life easier |
-	- Equivalent to `Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);`
+	- Equivalent to ```csharp
+	Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);```
 
 Who wants to remember this? |
 
