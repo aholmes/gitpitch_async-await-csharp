@@ -4,7 +4,7 @@
 
 +++
 
-### Common issues and why they happen
+# Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
 
 <div style="width:100%;text-align: left;">Will touch on:</div>
@@ -15,7 +15,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-### A brief history of space and Task
+# A brief history of space and Task
 - Task Parallel Library (TPL)
 	.NET >= 4.0
 	- Task
@@ -27,7 +27,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-### Task Parallel Library (TPL)
+# Task Parallel Library (TPL)
 - Provides high-level methods to simplify using threads for parallel processing and  concurrency |
 - Introduced Task and friends (.Result(), .Wait(), et al) |
 - Introduced Task.Factory.StartNew() |
@@ -36,7 +36,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-Task-based Asynchronous Programming (TAP)
+# Task-based Asynchronous Programming (TAP)
 <ul>
 <li class="fragment">
 .NET 4.5 added Task.Run to make life easier
@@ -58,7 +58,7 @@ Instead use <span style="font-size:20px;">Task.Run(A);</span>
 
 +++
 
-C# 5
+#C&35; 5
 
 - Added async/await keywords |
 	- Built on top of existing Task concepts
@@ -67,9 +67,28 @@ C# 5
 		- Thread management |
 
 +++
-		- Task.Run is parallel, but not necessarily asynchronous
-			- define parallel and asynchronous: IO-bound work where thread can detach
-				- BCL -> Overlapped IO -> OS -> IRP -> device driver
+
+# Task.Run
+
+Task.Run is parallel, but not necessarily asynchronous
+Context-specific definitions:
+- Parallel: executing concurrently via threads |
+- Asynchronous: executing on hardware after releasing thread |
+	- Releasing thread: sending the thread back to the management threadpool
+
++++
+
+# Asynchronous magic
+
+The async/await flow uses the Base Class Library (BCL) to send work to the OS and release threads to the threadpool
+
+- Application |
+	- BCL |
+		- Overlapped IO |
+			- OS |
+				- IRP | &lt;-- "continuation"
+					- Device driver | &lt;-- thread is finally released
+
 +++
 	- deadlocks
 		- .Result, .Wait(), .GetAwaiter().GetResult, any other sort of thread blocking
