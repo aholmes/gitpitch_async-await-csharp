@@ -29,13 +29,15 @@ Understand what happens with asynchronous programming in .NET
 
 ### Task Parallel Library (TPL)
 - Provides high-level methods to simplify using threads for parallel processing and  concurrency |
+- Introduced Task and friends (`.Result()`, `.Wait()`, et al)
 - Stuck using (and blocking) threads |
 	- Wastes CPU cycles waiting for IO
 
 +++
-		- .NET 4.5 added Task.Run to make life easier (defaults for Task.Factory.StartNew, and safer)
-			- Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
-			- Task.Run(A);
+
+- .NET 4.5 added Task.Run to make life easier (defaults for Task.Factory.StartNew, and safer)
+		- Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+		- Task.Run(A);
 +++
 			- C# 5 added async/await keywords
 			- explain why Microsoft did not remove old TAP methods, and why async/await is built on top of them
