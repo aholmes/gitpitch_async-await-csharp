@@ -86,8 +86,8 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 	- BCL |
 		- Overlapped IO |
 			- OS |
-				- IRP | &lt;-- "continuation"
-					- Device driver | &lt;-- thread is finally released
+				- IRP &lt;-- "continuation" |
+					- Device driver &lt;-- thread released |
 
 +++
 	- deadlocks
