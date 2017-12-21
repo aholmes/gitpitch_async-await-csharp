@@ -42,24 +42,30 @@ Task-based Asynchronous Programming (TAP)
 .NET 4.5 added Task.Run to make life easier
 </li>
 <li class="fragment">
-Equivalent to
-	
-<span style="font-size:10px;">
+Equivalent to <br/>	
+<span style="font-size:20px;">
 ```
 Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
 ```
 </span>
 </li>
 <li class="fragment">
-Who wants to remember this?
+Who wants to remember this?<br/>
 
-Instead use Task.Run(A);
+Instead use <span style="font-size:20px;">Task.Run(A);</span>
 </li>
 </ul>
 
 +++
-			- C# 5 added async/await keywords
-			- explain why Microsoft did not remove old TAP methods, and why async/await is built on top of them
+
+C# 5
+
+- Added async/await keywords |
+	- Built on top of existing Task concepts
+		- Continuations |
+		- Task API |
+		- Thread management |
+
 +++
 		- Task.Run is parallel, but not necessarily asynchronous
 			- define parallel and asynchronous: IO-bound work where thread can detach
