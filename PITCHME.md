@@ -42,7 +42,11 @@ Task-based Asynchronous Programming (TAP)
 .NET 4.5 added Task.Run to make life easier
 </li>
 <li class="fragment">
-	Equivalent to `Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);`
+Equivalent to
+	
+```csharp
+Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+```
 </li>
 <li class="fragment">
 Who wants to remember this?
