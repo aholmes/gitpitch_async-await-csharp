@@ -6,11 +6,11 @@
 
 ### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
-- TPL
+- TPL |
 - TAP |
 - Task.Factory.StartNew |
 - Task.Run |
-- async and await |
+- `async` and `await` |
 +++
 ### A brief history of space and Task
 
