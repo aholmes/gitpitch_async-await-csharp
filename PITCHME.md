@@ -6,17 +6,26 @@
 
 ### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
-- TPL |
-- TAP |
-- Task.Factory.StartNew |
-- Task.Run |
-- async and await |
-+++
-### A brief history of space and Task
+- Will touch on:
+- History and baggage of Task |
+- Async state machine |
+- Thread management |
+- Asynchronous vs Parallel |
 
-		- TPL, TAP, & Task.Factory.StartNew
-			- task parallel library
-			- define TAP Task Based Asynchronous Programming
+### A brief history of space and Task
+- Task Parallel Library (TPL) (.NET >= 4.0)
+	- Task
+- Task-based Asynchronous Programming (TAP) (.NET >= 4.5)
+	- Task.Factory.StartNew
+	- Task.Run
+	- async and await (C# 5)
+
++++
+
+### TPL
+Provides high-level methods to simplify using threads for parallel processing and  concurrency. |
+Stuck using threads. |
+
 +++
 		- .NET 4.5 added Task.Run to make life easier (defaults for Task.Factory.StartNew, and safer)
 			- Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
