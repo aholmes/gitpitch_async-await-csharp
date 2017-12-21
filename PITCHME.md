@@ -74,11 +74,11 @@ Task.Run is parallel, but not necessarily asynchronous
 <div style="width:100%;text-align: left;">Context-specific definitions:</div>
 - Parallel: executing concurrently via threads |
 - Asynchronous: executing on hardware after releasing thread |
-	- Releasing thread: sending the thread back to the management threadpool
+	- Releasing thread: sending the thread back to the managemed threadpool
 
 +++
 
-# Asynchronous magic
+# Asynchronous
 
 The async/await flow uses the Base Class Library (BCL) to send work to the OS and release threads to the threadpool
 
