@@ -29,7 +29,7 @@ Understand what happens with asynchronous programming in .NET
 
 ### Task Parallel Library (TPL)
 - Provides high-level methods to simplify using threads for parallel processing and  concurrency |
-- Introduced Task and friends (`.Result()`, `.Wait()`, et al)
+- Introduced Task and friends (.Result(), .Wait(), et al)
 - Stuck using (and blocking) threads |
 	- Wastes CPU cycles waiting for IO
 
