@@ -2,6 +2,8 @@
 ##### How to succeed with asynchronous programming in .NET
 ###### (and other fun facts)
 
+An informative rant by Aaron Holmes
+
 +++
 
 GitPitch slideshow: https://gitpitch.com/aholmes/gitpitch_async-await-csharp
