@@ -10,18 +10,7 @@ GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
 
 +++
 
-#### Common issues and why they happen
-Understand what happens with asynchronous programming in .NET
-
-<div style="width:100%;text-align: left;">Will touch on:</div>
-- History and baggage of Task |
-- Async state machine |
-- Thread management |
-- Asynchronous vs Parallel |
-
-+++
-
-#### A brief history of space and Task
+#### A brief history of space and ~~time~~ Task
 - Task Parallel Library (TPL)
 	.NET >= 4.0
 	- Task
@@ -64,7 +53,7 @@ Instead use <span style="font-size:20px;">Task.Run(A);</span>
 
 +++
 
-#### C&#35; 5
+#### C&#35; 5 and async/await
 
 - Added async/await keywords |
 	- Built on top of existing Task concepts
@@ -94,6 +83,17 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 			- OS |
 				- IRP &lt;-- "continuation" |
 					- Device driver &lt;-- thread released |
+
++++
+
+#### Common issues and why they happen
+Understand what happens with asynchronous programming in .NET
+
+<div style="width:100%;text-align: left;">Will touch on:</div>
+- History and baggage of Task |
+- Async state machine |
+- Thread management |
+- Asynchronous vs Parallel |
 
 +++
 
@@ -135,7 +135,6 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 
 +++
 #### Understanding async/await
-
 Never block!
 
 Instead, use:
@@ -172,49 +171,59 @@ Task<T> extends Task
 +++
 #### Understanding async/await
 ##### AggregateException
-			- Catching and handling this and other exceptions
-				- (use `when()` - it's awesome)
+- Catching and handling this and other exceptions
+	- (use `when()` - it's awesome)
+
 +++
 #### Understanding async/await
 ##### What to do in the monolith
-	- async is possible in most areas
-		- if not, "why aaron keeps saying use Task.Run(Action).Result"
+- async is possible in most areas
+	- if not, "why aaron keeps saying use Task.Run(Action).Result"
+
 +++
 #### Understanding async/await
 ##### use async everywhere
 ###### but be smart about it
+- try to avoid async/await when using TPL or "threaded tasks"
 
-		- try to avoid async/await when using TPL or "threaded tasks"
 +++
 #### Understanding async/await
 ##### achieve parallelization when possible
 ###### use responsibly
-	- don't exhaust resources like network ports or disk io with too many parallel operations
+- don't exhaust resources like network ports or disk io with too many parallel operations
+
 +++
 #### Understanding async/await
-		- always configureawait false in your library code
-			- don't rely on context capturing in you need it (e.g. global HttpContext)
+- always configureawait false in your library code
+- don't rely on context capturing in you need it (e.g. global HttpContext)
+
 +++
 #### Understanding async/await
-		- consider adopting an "always use cancellation tokens" policy
+- consider adopting an "always use cancellation tokens" policy
+
 +++
 #### Understanding async/await
-	- permutations on the use of Task/Task<T> and async/await
+- permutations on the use of Task/Task<T> and async/await
+	
 +++
 #### Understanding async/await
-		- Task pass-through
-			- exceptions again
+- Task pass-through
+	- exceptions again
+
 +++
 #### Understanding async/await
-		- Task[] and different Task<T> types
+- Task[] and different Task<T> types
+	
 +++
 #### Understanding async/await
-		- using .Result after task completion (dangerous!)
-			- exceptions again again
-		- using await after task completes
+- using .Result after task completion (dangerous!)
+	- exceptions again again
+- using await after task completes
+
 +++
 #### Understanding async/await
-		- Unwrapping Task<Task> and Task<Task<T>>
+- Unwrapping Task<Task> and Task<Task<T>>
+	
 +++
 #### Understanding async/await
-		- async in xUnit - do it! use supporting asserts
+- async in xUnit - do it! use supporting asserts
