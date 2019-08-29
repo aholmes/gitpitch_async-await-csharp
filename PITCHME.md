@@ -50,7 +50,11 @@ Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAt
 Who wants to remember this?<br/>
 
 Instead use
-<span style="font-size:20px;">```Task.Run(A);```</span>
+<span style="font-size:20px;">
+```
+Task.Run(A);
+```
+</span>
 </li>
 </ul>
 
