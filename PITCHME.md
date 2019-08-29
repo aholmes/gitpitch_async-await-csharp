@@ -64,7 +64,7 @@ Instead use <span style="font-size:20px;">Task.Run(A);</span>
 
 +++
 
-# C# 5
+#### C&#35; 5
 
 - Added async/await keywords |
 	- Built on top of existing Task concepts
