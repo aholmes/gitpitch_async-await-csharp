@@ -142,9 +142,7 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 
 +++
 #### Understanding async/await
-Never block!
-
-Instead, use:
+Never block! Instead, use:
 - await |
 	- Unwraps Tasks and returns internal result
 - WhenAny |
