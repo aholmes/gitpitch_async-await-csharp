@@ -145,14 +145,14 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 Never block!
 
 Instead, use:
-		- await |
-			- Unwraps Tasks and returns internal result
-		- WhenAny |
-			- Returns when any task in an IEnumerable<Task> completes
-			- Returns immediately when any Task fails
-		- WhenAll |
-			- Returns when all tasks in an IEnumerable<Task> complete
-			- Failures do not cause an early return
+- await |
+	- Unwraps Tasks and returns internal result
+- WhenAny |
+	- Returns when any task in an IEnumerable<Task> completes
+	- Returns immediately when any Task fails
+- WhenAll |
+	- Returns when all tasks in an IEnumerable<Task> complete
+	- Failures do not cause an early return
 +++
 
 #### Understanding async/await
