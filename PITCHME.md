@@ -39,7 +39,7 @@ GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
 .NET 4.5 added Task.Run to make life easier
 </li>
 <li class="fragment">
-Equivalent to <br/>	
+Equivalent to
 <span style="font-size:20px;">
 ```
 Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
@@ -49,7 +49,8 @@ Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAt
 <li class="fragment">
 Who wants to remember this?<br/>
 
-Instead use <span style="font-size:20px;">Task.Run(A);</span>
+Instead use
+<span style="font-size:20px;">```Task.Run(A);```</span>
 </li>
 </ul>
 
