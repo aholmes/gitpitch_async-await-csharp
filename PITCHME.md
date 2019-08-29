@@ -10,7 +10,7 @@ GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
 
 +++
 
-# Common issues and why they happen
+#### Common issues and why they happen
 Understand what happens with asynchronous programming in .NET
 
 <div style="width:100%;text-align: left;">Will touch on:</div>
@@ -21,7 +21,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-# A brief history of space and Task
+#### A brief history of space and Task
 - Task Parallel Library (TPL)
 	.NET >= 4.0
 	- Task
@@ -33,7 +33,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-# Task Parallel Library (TPL)
+#### Task Parallel Library (TPL)
 - Provides high-level methods to simplify using threads for parallel processing and  concurrency |
 - Introduced Task and friends (.Result(), .Wait(), et al) |
 - Introduced Task.Factory.StartNew() |
@@ -42,7 +42,7 @@ Understand what happens with asynchronous programming in .NET
 
 +++
 
-# Task-based Asynchronous Programming (TAP)
+#### Task-based Asynchronous Programming (TAP)
 <ul>
 <li class="fragment">
 .NET 4.5 added Task.Run to make life easier
@@ -74,7 +74,7 @@ Instead use <span style="font-size:20px;">Task.Run(A);</span>
 
 +++
 
-# Task.Run
+#### Task.Run
 
 Task.Run is parallel, but not necessarily asynchronous
 <div style="width:100%;text-align: left;">Context-specific definitions:</div>
@@ -84,7 +84,7 @@ Task.Run is parallel, but not necessarily asynchronous
 
 +++
 
-# Asynchronous
+#### Asynchronous
 
 The async/await flow uses the Base Class Library (BCL) to send work to the OS and release threads to the threadpool
 
@@ -97,7 +97,7 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 
 +++
 
-# Common problems
+#### Common problems
 ###### Deadlocks
 
 - Caused by blocking a thread while another thread attempts to continue
@@ -105,7 +105,7 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 	- TARE: Thread-Abuse Resistence Education. Just say no!
 
 +++
-# Common problems
+#### Common problems
 ###### Deadlocks in ASP.NET
 
 - Caused by SynchronizationContext when blocking threads
@@ -113,7 +113,7 @@ The async/await flow uses the Base Class Library (BCL) to send work to the OS an
 	- Continuation tries to execute two threads
 
 +++
-# Common problems
+#### Common problems
 ###### Relying on ConfigureAwait(false)
 
 > Using ConfigureAwait(false) to avoid deadlocks is a dangerous practice. You would have to use ConfigureAwait(false) for every await in the transitive closure of all methods called by the blocking code, including all third- and second-party code. Using ConfigureAwait(false) to avoid deadlock is at best just a hack).
@@ -122,11 +122,11 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 
 +++
 
-# Succeeding with Async
+#### Succeeding with Async
 ###### Concepts needed to use async/await successfully
 
 +++
-# Succeeding with Async
+#### Succeeding with Async
 
 - One big state machine
 	- MSBuild generates IL |
@@ -134,7 +134,7 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 	- Manages async Task object |
 
 +++
-# Understanding async/await
+#### Understanding async/await
 
 Never block!
 
@@ -149,7 +149,7 @@ Instead, use:
 			- Failures do not cause an early return
 +++
 
-# Understanding async/await
+#### Understanding async/await
 ContinueWith()
 
 - Set up your own continuations |
@@ -158,61 +158,63 @@ ContinueWith()
 	- ContinueWith(t => t.Result);
 
 +++
-# Understanding async/await
+#### Understanding async/await
 Cancellation Tokens
 
 - Stop in-progress work |
 - Respond in Tasks when something happens |
 
 +++
-# Understanding async/await
+#### Understanding async/await
 
 Task<T> extends Task
 
 +++
-# Understanding async/await
-AggregateException
+#### Understanding async/await
+##### AggregateException
 			- Catching and handling this and other exceptions
 				- (use `when()` - it's awesome)
 +++
-# Understanding async/await
-What to do in the monolith
+#### Understanding async/await
+##### What to do in the monolith
 	- async is possible in most areas
 		- if not, "why aaron keeps saying use Task.Run(Action).Result"
 +++
-# Understanding async/await
-use async everywhere, but be smart about it
+#### Understanding async/await
+##### use async everywhere
+###### but be smart about it
 
 		- try to avoid async/await when using TPL or "threaded tasks"
 +++
-# Understanding async/await
- achieve parallelization when possible, use responsibly
+#### Understanding async/await
+##### achieve parallelization when possible
+###### use responsibly
 	- don't exhaust resources like network ports or disk io with too many parallel operations
 +++
-# Understanding async/await
+#### Understanding async/await
 		- always configureawait false in your library code
 			- don't rely on context capturing in you need it (e.g. global HttpContext)
 +++
-# Understanding async/await
+#### Understanding async/await
 		- consider adopting an "always use cancellation tokens" policy
 +++
-# Understanding async/await
+#### Understanding async/await
 	- permutations on the use of Task/Task<T> and async/await
 +++
-# Understanding async/await
+#### Understanding async/await
 		- Task pass-through
 			- exceptions again
 +++
-# Understanding async/await
+#### Understanding async/await
 		- Task[] and different Task<T> types
 +++
-# Understanding async/await
+#### Understanding async/await
 		- using .Result after task completion (dangerous!)
 			- exceptions again again
 		- using await after task completes
 +++
-# Understanding async/await
+#### Understanding async/await
 		- Unwrapping Task<Task> and Task<Task<T>>
 +++
-# Understanding async/await
+#### Understanding async/await
 		- async in xUnit - do it! use supporting asserts
