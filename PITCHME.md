@@ -217,7 +217,7 @@ Cancellation Tokens
 +++
 #### Understanding async/await
 - always `ConfigureAwait` false in your library code
-- Don't rely on context capturing in you need it (e.g. global HttpContext)
+- Don't rely on context capturing if you need it (e.g. global HttpContext)
 	- Use a wrapper class!
 
 +++
@@ -255,7 +255,6 @@ await Task.WhenAll(tasks);
 - Using .Result after `Task` completion (dangerous!)
 	- This changes exceptions!
 - using await after `Task` when task is started elsewhere
-	- Does not work with `ValueTask`
 
 ```
 var task = DoSomethingAsync();
@@ -275,7 +274,7 @@ return await task;
 	
 ```
 	// some wrapped task
-	Task<Task<string>> task = await GetStringAsync() => ...
+	Task<Task<string>> task = await GetStringAsync() =>
 
 	return await task.Unwrap(); // get the string
 ```
