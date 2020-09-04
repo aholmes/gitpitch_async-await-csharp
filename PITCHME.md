@@ -28,10 +28,12 @@ GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
 +++
 
 #### Task Parallel Library (TPL)
-- High-level methods to simplify using threads for parallel processing and  concurrency |
-- Task and friends (.Result(), .Wait(), et al) |
-- Task.Factory.StartNew() |
+@ol
+- High-level methods to simplify using threads for parallel processing and  concurrency
+- `Task` and friends (`.Result()`, `.Wait()`, et al)
+- `Task.Factory.StartNew()`
 - Stuck with blocking threads
+@olend
 
 +++
 
@@ -224,28 +226,60 @@ Cancellation Tokens
 
 +++
 #### Understanding async/await
-- Permutations on the use of Task/Task<T> and async/await
-	
-+++
-#### Understanding async/await
 - Task pass-through
 	- This changes exceptions!
+
+```
+Task DoSomething()
+{
+	return SomethingAsync();
+}
+```
 
 +++
 #### Understanding async/await
 - `Task[]` and `Task<T>` polymorphism
+
+```
+var tasks = new Task[]
+{
+	GetStringAsync(), // returns Task<string>
+	GetIntAsync() // returns Task<int>
+};
+
+await Task.WhenAll(tasks);
+```
 	
 +++
 #### Understanding async/await
-- Rsing .Result after `Task` completion (dangerous!)
+- Using .Result after `Task` completion (dangerous!)
 	- This changes exceptions!
-- using await after `Task` is already `await`ed
+- using await after `Task` when task is started elsewhere
 	- Does not work with `ValueTask`
+
+```
+var task = DoSomethingAsync();
+// wait for task to complete
+return task.Result; // this is technically safe but has risk
+```
+
+```
+var task = DoSomethingAsync();
+// do something else
+return await task;
+```
 
 +++
 #### Understanding async/await
 - Unwrapping `Task<Task>` and `Task<Task<T>>`
 	
+```
+	// some wrapped task
+	Task<Task<string>> task = await GetStringAsync() => ...
+
+	return await task.Unwrap(); // get the string
+```
+
 +++
 #### Understanding async/await
 - Async in unit and integration tests
