@@ -1,8 +1,8 @@
 # Async in C&#35; 
-##### How to succeed with asynchronous programming in .NET
+##### Succeeding with async programming in C&#35;
 ###### (and other fun facts)
 
-An informative rant by Aaron Holmes
+A passion project by Aaron Holmes
 
 +++
 
