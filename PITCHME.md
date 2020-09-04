@@ -21,28 +21,29 @@ GitPitch repository: https://github.com/aholmes/gitpitch_async-await-csharp
 	.NET >= 4.5
 	- Task.Run
 	- async and await (C# 5)
+- Other
+	- Asynchronous Programming Model (APM)
+	- Event-based Asynchronous Programming Model (EAP)
 
 +++
 
 #### Task Parallel Library (TPL)
-- Provides high-level methods to simplify using threads for parallel processing and  concurrency |
-- Introduced Task and friends (.Result(), .Wait(), et al) |
-- Introduced Task.Factory.StartNew() |
-- Stuck using (and blocking) threads |
-	- Wastes CPU cycles waiting for IO
+- High-level methods to simplify using threads for parallel processing and  concurrency |
+- Task and friends (.Result(), .Wait(), et al) |
+- Task.Factory.StartNew() |
+- Stuck with blocking threads
 
 +++
 
 #### Task-based Asynchronous Programming (TAP)
-<ul>
+<ul style="list-style: none;">
 <li class="fragment">
-.NET 4.5 added Task.Run to make life easier
-</li>
-<li class="fragment">
+.NET 4.5 added Task.Run
+<br />
 Equivalent to
 <span style="font-size:20px;">
 ```
-Task.Factory.StartNew(A, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
+Task.Factory.StartNew(Action, CancellationToken.None, TaskCreationOptions.DenyChildAttach, TaskScheduler.Default);
 ```
 </span>
 </li>
@@ -52,91 +53,102 @@ Who wants to remember this?<br/>
 Instead use
 <span style="font-size:20px;">
 ```
-Task.Run(A);
+Task.Run(Action);
 ```
 </span>
 </li>
+
+<li class="fragment">Can we do better?</li>
 </ul>
 
 +++
 
 #### C&#35; 5 and async/await
 
-- Added async/await keywords |
-	- Built on top of existing Task concepts
-		- Continuations |
-		- Task API |
-		- Thread management |
+@ol
+- Added async/await keywords<br/>Built on top of existing Task concepts
+	- Continuations
+	- Task API
+	- Thread management
+@olend
 
 +++
 
 #### Task.Run
 
-Task.Run is parallel, but not necessarily asynchronous
-<div style="width:100%;text-align: left;">Context-specific definitions:</div>
-- Parallel: executing concurrently via threads |
-- Asynchronous: executing on hardware after releasing thread |
-	- Releasing thread: sending the thread back to the managed threadpool
-
+Task.Run is _parallel_<br/>not always _asynchronous_
+<div style="width:100%;text-align: left;">Definitions:</div>
+- Parallel: concurrency via threads
+- Asynchronous: no thread, hardware interrupts
 +++
 
 #### Asynchronous
 
-The async/await flow uses the Base Class Library (BCL) to send work to the OS and release threads to the threadpool
+Async/await tells the OS to send some work to hardware, then releases a thread
 
+<div style="width:100%;text-align: left;">Flow:</div>
 - Application |
 	- BCL |
 		- Overlapped IO |
 			- OS |
-				- IRP &lt;-- "continuation" |
+				- IRP (Input Output Request) &lt;-- "continuation" |
 					- Device driver &lt;-- thread released |
 
 +++
 
 #### Common issues and why they happen
-Understand what happens with asynchronous programming in .NET
+What makes asynchronous programming in C# hard?
 
-<div style="width:100%;text-align: left;">Will touch on:</div>
-- History and baggage of Task |
-- Async state machine |
-- Thread management |
-- Asynchronous vs Parallel |
+- History and baggage of Task
+- Async state machine
+- Thread management
+- Asynchronous vs Parallel
 
 +++
 
 #### Common problems
 ###### Deadlocks
 
-- Caused by blocking a thread while another thread attempts to continue
-- Culprits: .Result, .Wait(), .GetAwaiter().GetResult(), any other sort of thread blocking
-	- TARE: Thread-Abuse Resistence Education. Just say no!
+TARE: Thread-Abuse Resistence Education.<br/>Just say no!
+
+- Blocking a thread when another thread receives an IRP
+- Culprits:
+	- .Result
+	- .Wait()
+	- .GetAwaiter().GetResult()
+	- any other sort of thread blocking
 
 +++
 #### Common problems
 ###### Deadlocks in ASP.NET
 
-- Caused by SynchronizationContext when blocking threads
+- SynchronizationContext
 	- One executing thread per request (SyncContext gating)
 	- Continuation tries to execute two threads
+
+No longer a problem in ASP.NET Core!
 
 +++
 #### Common problems
 ###### Relying on ConfigureAwait(false)
 
-> Using ConfigureAwait(false) to avoid deadlocks is a dangerous practice. You would have to use ConfigureAwait(false) for every await in the transitive closure of all methods called by the blocking code, including all third- and second-party code. Using ConfigureAwait(false) to avoid deadlock is at best just a hack).
-
+<blockquote style="font-size:15px; line-height:1px; display:block;">
+<p>
+Using ConfigureAwait(false) to avoid deadlocks is a dangerous practice. You would have to use ConfigureAwait(false) for every await in the transitive closure of all methods called by the blocking code, including all third- and second-party code. Using ConfigureAwait(false) to avoid deadlock is at best just a hack).
+<p>
 https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
+</blockquote>
 
 +++
 
 #### Succeeding with Async
-###### Concepts needed to use async/await successfully
+###### How to use async/await successfully
 
 +++
 #### Succeeding with Async
 
 - One big state machine
-	- MSBuild generates IL |
+	- Compiler generates IL |
 	- State machine contains continuations |
 	- Manages async Task object |
 
@@ -144,12 +156,12 @@ https://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
 #### Understanding async/await
 Never block! Instead, use:
 - await |
-	- Unwraps Tasks and returns internal result
+	- Returns the result of a `Task`
 - WhenAny |
-	- Returns when any task in an IEnumerable<Task> completes
-	- Returns immediately when any Task fails
+	- Returns when any many `Task`s complete
+	- Returns immediately when any `Task` fails
 - WhenAll |
-	- Returns when all tasks in an IEnumerable<Task> complete
+	- Returns when all `Task`s complete
 	- Failures do not cause an early return
 +++
 
@@ -157,8 +169,8 @@ Never block! Instead, use:
 ContinueWith()
 
 - Set up your own continuations |
-- Easy way to handle a result immediately after a Task finishes |
-	- One place .Result is safe
+- Useful to transform a Task result |
+- One place .Result is safe |
 	- ContinueWith(t => t.Result);
 
 +++
@@ -171,67 +183,73 @@ Cancellation Tokens
 +++
 #### Understanding async/await
 
-Task<T> extends Task
+`Task<T>` extends `Task`
 
 +++
 #### Understanding async/await
-##### AggregateException
+`AggregateException`
 - Catching and handling this and other exceptions
 	- (use `when()` - it's awesome)
 
 +++
 #### Understanding async/await
-##### What to do in the monolith
-- async is possible in most areas
-	- if not, "why aaron keeps saying use Task.Run(Action).Result"
+##### What to do in old non-async code
+- `async` is possible in most areas
+	- New code should be async
+- if `async` can't be used, understand why Aaron keeps saying use `Task.Run(Action).Result`
 
 +++
 #### Understanding async/await
 ##### use async everywhere
 ###### but be smart about it
-- try to avoid async/await when using TPL or "threaded tasks"
+- Try to avoid async/await when using TPL or "threaded `Task`s"
+- Avoid "sync-over-async"
 
 +++
 #### Understanding async/await
 ##### achieve parallelization when possible
 ###### use responsibly
-- don't exhaust resources like network ports or disk io with too many parallel operations
+- `async` can exhaust IO<br/>(sockets, file handles, disk r/w, bandwidth)
+	- Use a custom `TaskScheduler`
 
 +++
 #### Understanding async/await
-- always configureawait false in your library code
-- don't rely on context capturing in you need it (e.g. global HttpContext)
+- always `ConfigureAwait` false in your library code
+- Don't rely on context capturing in you need it (e.g. global HttpContext)
+	- Use a wrapper class!
 
 +++
 #### Understanding async/await
-- consider adopting an "always use cancellation tokens" policy
+- Consider adopting an "always use cancellation tokens" policy
 
 +++
 #### Understanding async/await
-- permutations on the use of Task/Task<T> and async/await
+- Permutations on the use of Task/Task<T> and async/await
 	
 +++
 #### Understanding async/await
 - Task pass-through
-	- exceptions again
+	- This changes exceptions!
 
 +++
 #### Understanding async/await
-- Task[] and different Task<T> types
+- `Task[]` and `Task<T>` polymorphism
 	
 +++
 #### Understanding async/await
-- using .Result after task completion (dangerous!)
-	- exceptions again again
-- using await after task completes
+- Rsing .Result after `Task` completion (dangerous!)
+	- This changes exceptions!
+- using await after `Task` is already `await`ed
+	- Does not work with `ValueTask`
 
 +++
 #### Understanding async/await
-- Unwrapping Task<Task> and Task<Task<T>>
+- Unwrapping `Task<Task>` and `Task<Task<T>>`
 	
 +++
 #### Understanding async/await
-- async in xUnit - do it! use supporting asserts
+- Async in unit and integration tests
+	- xUnit has `async` asserts
 
 +++
 # Thank you!
